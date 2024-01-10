@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "IM8OtWjaNQ8RHVKrUBNApoK9zWjRKUPjW1JTxRAMkyM=",
+  "Source": "ATM.API",
+  "BasePath": "_content/ATM.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
