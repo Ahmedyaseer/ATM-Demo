@@ -2,14 +2,14 @@
 
 namespace ATM.DAL;
 
-    public class Transactions
+    public class Transaction
     {
     public int Id { get; set; }
     public int Amount { get; set; }
     public DateTime Date { get; set; }
-    public int accountsId { get; set; }
+    public int accountId { get; set; }
 
-    [ForeignKey("accountsId")]
-    public Accounts? accounts { get; set; }
+    [ForeignKey("accountId")]
+    public Account? accounts { get; set; }
 }
 

@@ -6,10 +6,10 @@ namespace ATM.API.Controllers.AccountsController
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class LoginAccountController : ControllerBase
     {
         private readonly IAccountManager accountManager;
-        public AccountController(IAccountManager accountManager)
+        public LoginAccountController(IAccountManager accountManager)
         {
             this.accountManager = accountManager;
         }

@@ -18,9 +18,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("AtmConectionStri
     ));
 
 
-builder.Services.AddScoped<IAccountsRepo,AccountsRepo>();   
-builder.Services.AddScoped<ITransactionsRepo,TransactionsRepo>();
-builder.Services.AddScoped<IAccountManager, AccountsManager>();
+builder.Services.AddScoped<IAccountRepo,AccountRepo>();   
+builder.Services.AddScoped<ITransactionRepo,TransactionRepo>();
+builder.Services.AddScoped<IAccountManager, AccountManager>();
 builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 
 var app = builder.Build();

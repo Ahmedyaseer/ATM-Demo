@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ATM.DAL.Migrations
 {
     [DbContext(typeof(AtmContext))]
-    [Migration("20240109200430_m1")]
-    partial class m1
+    [Migration("20240111151014_UpdateAccountIdPropertyAndUpdateTabelsNameAccount,Transaction")]
+    partial class UpdateAccountIdPropertyAndUpdateTabelsNameAccountTransaction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ATM.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ATM.DAL.Accounts", b =>
+            modelBuilder.Entity("ATM.DAL.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,10 +44,10 @@ namespace ATM.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("accounts");
+                    b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("ATM.DAL.Transactions", b =>
+            modelBuilder.Entity("ATM.DAL.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,26 +61,28 @@ namespace ATM.DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("accountsId")
+                    b.Property<int>("accountId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("accountsId");
+                    b.HasIndex("accountId");
 
-                    b.ToTable("transactions");
+                    b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("ATM.DAL.Transactions", b =>
+            modelBuilder.Entity("ATM.DAL.Transaction", b =>
                 {
-                    b.HasOne("ATM.DAL.Accounts", "accounts")
+                    b.HasOne("ATM.DAL.Account", "accounts")
                         .WithMany("Transactions")
-                        .HasForeignKey("accountsId");
+                        .HasForeignKey("accountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("accounts");
                 });
 
-            modelBuilder.Entity("ATM.DAL.Accounts", b =>
+            modelBuilder.Entity("ATM.DAL.Account", b =>
                 {
                     b.Navigation("Transactions");
                 });

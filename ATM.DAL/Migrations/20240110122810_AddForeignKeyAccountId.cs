@@ -5,18 +5,18 @@
 namespace ATM.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class edit1 : Migration
+    public partial class AddForeignKeyAccountId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_transactions_accounts_accountsId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.AlterColumn<int>(
                 name: "accountsId",
-                table: "transactions",
+                table: "Transactions",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
@@ -26,9 +26,9 @@ namespace ATM.DAL.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_transactions_accounts_accountsId",
-                table: "transactions",
+                table: "Transactions",
                 column: "accountsId",
-                principalTable: "accounts",
+                principalTable: "Accounts",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -38,11 +38,11 @@ namespace ATM.DAL.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_transactions_accounts_accountsId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.AlterColumn<int>(
                 name: "accountsId",
-                table: "transactions",
+                table: "Transactions",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
@@ -50,9 +50,9 @@ namespace ATM.DAL.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_transactions_accounts_accountsId",
-                table: "transactions",
+                table: "Transactions",
                 column: "accountsId",
-                principalTable: "accounts",
+                principalTable: "Accounts",
                 principalColumn: "Id");
         }
     }

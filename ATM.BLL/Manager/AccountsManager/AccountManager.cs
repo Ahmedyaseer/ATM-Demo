@@ -4,17 +4,17 @@ using ATM.DAL;
 
 namespace ATM.BLL;
 
-    public  class AccountsManager : IAccountManager
+    public  class AccountManager : IAccountManager
     {
-    private readonly IAccountsRepo accountRepo;
+    private readonly IAccountRepo accountRepo;
 
-    public AccountsManager(IAccountsRepo accountRepo)
+    public AccountManager(IAccountRepo accountRepo)
     {
         this.accountRepo = accountRepo;
     }
         public AccountsDto Login(int cardNumber , int pin)
     {
-        Accounts? account = accountRepo.GetAccountById(cardNumber, pin);
+        Account? account = accountRepo.GetAccountById(cardNumber, pin);
         if( account == null)
         {
             return null;

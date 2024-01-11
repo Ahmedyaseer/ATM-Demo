@@ -13,8 +13,8 @@ namespace ATM.DAL;
 
     }
 
-    public DbSet<Accounts> accounts { get; set; }
-    public DbSet<Transactions> transactions { get; set; }
+    public DbSet<Account> Accounts { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

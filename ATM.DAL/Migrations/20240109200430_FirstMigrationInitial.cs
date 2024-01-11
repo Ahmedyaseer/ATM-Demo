@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ATM.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class m1 : Migration
+    public partial class FirstMigrationInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "accounts",
+                name: "Accounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -27,7 +27,7 @@ namespace ATM.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "transactions",
+                name: "Transactions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -42,13 +42,13 @@ namespace ATM.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_transactions_accounts_accountsId",
                         column: x => x.accountsId,
-                        principalTable: "accounts",
+                        principalTable: "Accounts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_transactions_accountsId",
-                table: "transactions",
+                table: "Transactions",
                 column: "accountsId");
         }
 
@@ -56,10 +56,10 @@ namespace ATM.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "transactions");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "accounts");
+                name: "Accounts");
         }
     }
 }

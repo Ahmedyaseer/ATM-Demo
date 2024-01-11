@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ATM.DAL.Migrations
 {
     [DbContext(typeof(AtmContext))]
-    [Migration("20240110122810_edit1")]
-    partial class edit1
+    [Migration("20240109200430_m1")]
+    partial class FirstMigrationInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ATM.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ATM.DAL.Accounts", b =>
+            modelBuilder.Entity("ATM.DAL.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace ATM.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("accounts");
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("ATM.DAL.Transactions", b =>
@@ -61,28 +61,26 @@ namespace ATM.DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("accountsId")
+                    b.Property<int?>("accountsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("accountsId");
 
-                    b.ToTable("transactions");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("ATM.DAL.Transactions", b =>
                 {
-                    b.HasOne("ATM.DAL.Accounts", "accounts")
+                    b.HasOne("ATM.DAL.Account", "Accounts")
                         .WithMany("Transactions")
-                        .HasForeignKey("accountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("accountsId");
 
-                    b.Navigation("accounts");
+                    b.Navigation("Accounts");
                 });
 
-            modelBuilder.Entity("ATM.DAL.Accounts", b =>
+            modelBuilder.Entity("ATM.DAL.Account", b =>
                 {
                     b.Navigation("Transactions");
                 });
