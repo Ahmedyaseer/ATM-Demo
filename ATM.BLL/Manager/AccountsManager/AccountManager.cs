@@ -1,28 +1,36 @@
 ﻿
 
-using ATM.DAL;
 
-namespace ATM.BLL;
 
-    public  class AccountManager : IAccountManager
-    {
-    private readonly IAccountRepo accountRepo;
+using ATM.BLL.DTOs.AccountsDto;
+using ATM.DAL.Models.Accounts;
+using ATM.DAL.Repos.Accounts;
 
-    public AccountManager(IAccountRepo accountRepo)
+namespace ATM.BLL.Manager.AccountsManager
+{
+
+
+
+    public class AccountManager : IAccountManager
     {
-        this.accountRepo = accountRepo;
-    }
-        public AccountsDto Login(int cardNumber , int pin)
-    {
-        Account? account = accountRepo.GetAccountById(cardNumber, pin);
-        if( account == null)
+        private readonly IAccountRepo accountRepo;
+
+        public AccountManager(IAccountRepo accountRepo)
         {
-            return null;
+            this.accountRepo = accountRepo;
         }
-        return new AccountsDto
+        public AccountsDto Login(int cardNumber, int pin)
         {
-            Balance = account.Balance
-        };
-    }
+            Account? account = accountRepo.GetAccountById(cardNumber, pin);
+            if (account == null)
+            {
+                throw new Exception("Account not found");
+            }
+            return new AccountsDto
+            {
+                Balance = account.Balance
+            };
+        }
     }
 
+}

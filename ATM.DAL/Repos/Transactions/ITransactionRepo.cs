@@ -1,9 +1,13 @@
 ﻿
 
-namespace ATM.DAL;
-    public interface ITransactionRepo 
+using ATM.DAL.Models.Transactions;
+
+namespace ATM.DAL.Repos.Transactions
+{
+    public interface ITransactionRepo
     {
-    public void Add(Transaction transaction);
+        public void Add(Transaction transaction);
 
     }
 
+}

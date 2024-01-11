@@ -1,8 +1,10 @@
 ﻿
-namespace ATM.BLL;
+namespace ATM.BLL.DTOs.AccountsDto
+{
 
-    public  class AccountsDto
+    public class AccountsDto
     {
-    public int Balance { get; set; }
-}
+        public int Balance { get; set; }
+    }
 
+}

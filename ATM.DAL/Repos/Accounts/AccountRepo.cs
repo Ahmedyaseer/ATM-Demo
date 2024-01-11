@@ -1,29 +1,36 @@
 ﻿
 
-namespace ATM.DAL;
+using ATM.DAL.Models.Accounts;
+using ATM.DAL.DatabaseContext;
 
-    public class AccountRepo : IAccountRepo   
+namespace ATM.DAL.Repos.Accounts
 {
-    private readonly AtmContext context;
-    public AccountRepo(AtmContext context)
+
+
+
+    public class AccountRepo : IAccountRepo
     {
-        this.context = context;
+        private readonly AtmContext context;
+        public AccountRepo(AtmContext context)
+        {
+            this.context = context;
+        }
+
+
+
+
+        public Account? GetAccountById(int cardNumber, int pin)
+        {
+            Account? CheckedAccount = context.Accounts
+                             .FirstOrDefault(i => i.CardNumber == cardNumber
+                             && i.Pin == pin);
+            return CheckedAccount;
+        }
+
+        public void SaveChanges()
+        {
+            context.SaveChanges();
+        }
     }
 
-
-
-
-    public Account? GetAccountById(int cardNumber , int pin)
-    {
-       Account? CheckedAccount = context.Accounts
-                        .FirstOrDefault(i=>i.CardNumber == cardNumber
-                        && i.Pin == pin );
-        return CheckedAccount;
-    }
-
-    public void SaveChanges()
-    {
-        context.SaveChanges();  
-    }
 }
-

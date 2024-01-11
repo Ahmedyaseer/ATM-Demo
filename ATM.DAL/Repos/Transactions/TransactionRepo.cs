@@ -1,21 +1,26 @@
 ﻿
 
-namespace ATM.DAL;
+using ATM.DAL.DatabaseContext;
+using ATM.DAL.Models.Transactions;
+
+namespace ATM.DAL.Repos.Transactions
+{
 
     public class TransactionRepo : ITransactionRepo
     {
 
-    private readonly AtmContext context;
-    public TransactionRepo(AtmContext context)
-    {
-        this.context = context;
-    }
+        private readonly AtmContext context;
+        public TransactionRepo(AtmContext context)
+        {
+            this.context = context;
+        }
 
-    public void Add(Transaction transaction)
-    {
-        context.Transactions.Add(transaction);
-        context.SaveChanges();
-    }
+        public void Add(Transaction transaction)
+        {
+            context.Transactions.Add(transaction);
+            context.SaveChanges();
+        }
 
-    
+
     }
+}

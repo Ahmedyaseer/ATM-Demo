@@ -1,5 +1,10 @@
 using ATM.BLL;
+using ATM.BLL.Manager.AccountsManager;
+using ATM.BLL.Manager.TransactionsManager;
 using ATM.DAL;
+using ATM.DAL.DatabaseContext;
+using ATM.DAL.Repos.Accounts;
+using ATM.DAL.Repos.Transactions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

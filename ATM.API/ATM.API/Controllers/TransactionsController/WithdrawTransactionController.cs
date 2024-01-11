@@ -1,5 +1,8 @@
 ﻿using ATM.BLL;
+using ATM.BLL.DTOs.TransactionsDto;
+using ATM.BLL.Manager.TransactionsManager;
 using ATM.DAL;
+using ATM.DAL.Repos.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,71 +1,77 @@
-﻿using ATM.DAL;
+﻿using ATM.BLL.DTOs.TransactionsDto;
+using ATM.DAL.Models.Transactions;
+using ATM.DAL.Repos.Accounts;
+using ATM.DAL.Repos.Transactions;
 
-namespace ATM.BLL;
-
-public class TransactionManager : ITransactionManager
+namespace ATM.BLL.Manager.TransactionsManager
 {
-    private readonly IAccountRepo accountRepo;
-    private readonly ITransactionRepo transactionsRepo;
 
-    public TransactionManager(IAccountRepo accountRepo, ITransactionRepo transactionsRepo)
+
+    public class TransactionManager : ITransactionManager
     {
-        this.accountRepo = accountRepo;
-        this.transactionsRepo = transactionsRepo;
-    }
+        private readonly IAccountRepo accountRepo;
+        private readonly ITransactionRepo transactionsRepo;
 
-    public TransactionDto? Withdraw(TransactionDto transactionDto)
-    {
-        var account = accountRepo.GetAccountById(transactionDto.CardNumber, transactionDto.Pin);
-
-        if (account == null)
+        public TransactionManager(IAccountRepo accountRepo, ITransactionRepo transactionsRepo)
         {
-            throw new ArgumentException("Account not found");
+            this.accountRepo = accountRepo;
+            this.transactionsRepo = transactionsRepo;
         }
 
-        if (account.Balance < transactionDto.Amount)
+        public TransactionDto? Withdraw(TransactionDto transactionDto)
         {
-            throw new ArgumentException("Insufficient funds");
+            var account = accountRepo.GetAccountById(transactionDto.CardNumber, transactionDto.Pin);
+
+            if (account == null)
+            {
+                throw new ArgumentException("Account not found");
+            }
+
+            if (account.Balance < transactionDto.Amount)
+            {
+                throw new ArgumentException("Insufficient funds");
+            }
+
+            account.Balance -= transactionDto.Amount;
+            accountRepo.SaveChanges();
+
+            Transaction? NewTransaction = new Transaction
+            {
+                Amount = -(transactionDto.Amount),
+                Date = DateTime.Now,
+                accountId = account.Id
+            };
+            transactionsRepo.Add(NewTransaction);
+            return transactionDto;
+
         }
 
-        account.Balance -= transactionDto.Amount;
-        accountRepo.SaveChanges();
 
-        Transaction? NewTransaction = new Transaction
+
+
+        public TransactionDto? Deposit(TransactionDto transactionDto)
         {
-            Amount = -(transactionDto.Amount),
-            Date = DateTime.Now,
-            accountId = account.Id
-        };
-        transactionsRepo.Add(NewTransaction);
-        return transactionDto;
-        
-    }
+            var account = accountRepo.GetAccountById(transactionDto.CardNumber, transactionDto.Pin);
 
+            if (account == null)
+            {
+                throw new ArgumentException("Account not found");
+            }
 
+            account.Balance += transactionDto.Amount;
+            accountRepo.SaveChanges();
 
+            Transaction? NewTransaction = new Transaction
+            {
+                Amount = transactionDto.Amount,
+                Date = DateTime.Now,
+                accountId = account.Id
+            };
+            transactionsRepo.Add(NewTransaction);
+            return transactionDto;
 
-    public TransactionDto? Deposit(TransactionDto transactionDto)
-    {
-        var account = accountRepo.GetAccountById(transactionDto.CardNumber, transactionDto.Pin);
-
-        if (account == null) 
-        {
-            throw new ArgumentException("Account not found");
         }
 
-        account.Balance += transactionDto.Amount;
-        accountRepo.SaveChanges();
-
-        Transaction? t = new Transaction
-        {
-            Amount = transactionDto.Amount,
-            Date = DateTime.Now,
-            accountId = account.Id
-        };
-        transactionsRepo.Add(t);
-        return transactionDto;
 
     }
-
-
 }

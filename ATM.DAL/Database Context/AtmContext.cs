@@ -1,9 +1,12 @@
 ﻿
 
+using ATM.DAL.Models.Accounts;
+using ATM.DAL.Models.Transactions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace ATM.DAL;
+namespace ATM.DAL.DatabaseContext 
+{ 
 
     public  class AtmContext : DbContext
     {
@@ -23,3 +26,4 @@ namespace ATM.DAL;
     }
 }
 
+}
