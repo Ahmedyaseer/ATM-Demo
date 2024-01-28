@@ -1,15 +1,14 @@
-﻿using ATM.BLL;
-using ATM.BLL.DTOs.TransactionsDto;
-using ATM.BLL.Manager.TransactionsManager;
-using ATM.DAL;
+﻿using ATM.BLL.Manager.TransactionsManager;
 using ATM.DAL.Repos.Accounts;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ATM.API.Controllers.TransactionsController
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WithdrawTransactionController : ControllerBase
     {
 
@@ -24,14 +23,17 @@ namespace ATM.API.Controllers.TransactionsController
 
 
         [HttpPost]
-        public IActionResult Withdrow(TransactionDto transactionDto)
+        [Authorize(Policy = "UserPolicy")]
+        [Route("{amount}")]
+        public IActionResult Withdrow(decimal amount)
         {
+            var idOfCurrentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (ModelState.IsValid)
             {
-                var transaction = transactionManager.Withdraw(transactionDto);
-                var account = accountRepo.GetAccountById(transactionDto.CardNumber);
+                var account = accountRepo.GetAccountById(idOfCurrentUser);
+                var transaction = transactionManager.Withdraw(idOfCurrentUser, amount);
 
-                return Ok($"Withdrawal of {transaction?.CardNumber} successful. New balance: {account?.Balance}");
+                return Ok($"Withdrawal of {idOfCurrentUser} successful. New balance: {account?.Balance}");
 
             }
             return BadRequest();

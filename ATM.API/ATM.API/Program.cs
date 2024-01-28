@@ -1,8 +1,12 @@
+using ATM.BLL.Filters;
 using ATM.BLL.Manager.AccountsManager;
 using ATM.BLL.Manager.TransactionsManager;
+using ATM.BLL.Middlewares;
+using ATM.BLL.Services;
 using ATM.DAL.DatabaseContext;
 using ATM.DAL.Repos.Accounts;
 using ATM.DAL.Repos.Transactions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +16,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => {
+    options.Filters.Add<LogActivityFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,7 +34,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("AtmConectionStri
 #region Asp Identity 
 
 builder.Services
-    .AddIdentity<AddOnIdentityUser, IdentityRole>(options =>
+    .AddIdentity<IdentityUser, IdentityRole>(options =>
     {
         options.Password.RequiredLength = 3;
         options.Password.RequireUppercase = false;
@@ -44,10 +50,10 @@ builder.Services
 builder.Services
     .AddAuthentication(options =>
     {
-        options.DefaultAuthenticateScheme = "XYZ";
-        options.DefaultChallengeScheme = "XYZ";
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
-    .AddJwtBearer("XYZ", options =>
+    .AddJwtBearer(options =>
     {
         string secretKey = builder.Configuration.GetValue<string>("SecretKey")!;
         var keyInBytes = Encoding.ASCII.GetBytes(secretKey);
@@ -69,6 +75,7 @@ builder.Services.AddScoped<IAccountRepo,AccountRepo>();
 builder.Services.AddScoped<ITransactionRepo,TransactionRepo>();
 builder.Services.AddScoped<IAccountManager, AccountManager>();
 builder.Services.AddScoped<ITransactionManager, TransactionManager>();
+builder.Services.AddScoped<IAddAuthService, AddAuthService>();
 
 
 builder.Services.AddAuthorization(options =>
@@ -95,6 +102,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<RateLimitingMiddleware>();
+
+app.UseMiddleware<ProfileMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowPolice");
@@ -102,6 +113,7 @@ app.UseCors("AllowPolice");
 app.UseAuthentication();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 

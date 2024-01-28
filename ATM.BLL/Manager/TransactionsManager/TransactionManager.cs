@@ -18,49 +18,47 @@ namespace ATM.BLL.Manager.TransactionsManager
             this.transactionsRepo = transactionsRepo;
         }
 
-        public TransactionDto? Withdraw(TransactionDto transactionDto)
+        public decimal Withdraw(string cardNumber, decimal amount)
         {
 
-
-
-
-            var account = accountRepo.GetAccountById(transactionDto.CardNumber);
+            var account = accountRepo.GetAccountById(cardNumber);
 
             if (account == null)
             {
                 throw new ArgumentException("Account not found");
             }
 
-            if (account.Balance < transactionDto.Amount)
+            if (account.Balance < amount)
             {
                 throw new ArgumentException("Insufficient funds");
             }
 
-            if (transactionDto.Amount <= 0)
+            if (amount <= 0)
             {
                 throw new ArgumentException("Canot Withdraw Negtive Numbers");
             }
 
-            account.Balance -= transactionDto.Amount;
+            account.Balance -= amount;
             accountRepo.Save();
 
-            Transaction? NewTransaction = new Transaction
+            Transaction? newTransaction = new Transaction
             {
-                Amount = -(transactionDto.Amount),
+                Amount = -(amount),
                 Date = DateTime.Now,
                 accountId = account.Id
             };
-            transactionsRepo.AddWithSave(NewTransaction);
-            return transactionDto;
+            transactionsRepo.AddWithSave(newTransaction);
+
+            return amount;
 
         }
             
      
 
 
-        public TransactionDto? Deposit(TransactionDto transactionDto)
+        public decimal Deposit(string cardNumber, decimal amount)
         {
-            var account = accountRepo.GetAccountById(transactionDto.CardNumber );
+            var account = accountRepo.GetAccountById(cardNumber);
 
             if (account == null)
             {
@@ -68,22 +66,22 @@ namespace ATM.BLL.Manager.TransactionsManager
             }
 
 
-            if (transactionDto.Amount <= 0)
+            if (amount <= 0)
             {
                 throw new ArgumentException("Canot Deposite Negtive Numbers");
             }
 
-            account.Balance += transactionDto.Amount;
+            account.Balance += amount;
             accountRepo.Save();
 
-            Transaction? NewTransaction = new Transaction
+            Transaction? newTransaction = new Transaction
             {
-                Amount = transactionDto.Amount,
+                Amount = amount,
                 Date = DateTime.Now,
                 accountId = account.Id
             };
-            transactionsRepo.AddWithSave(NewTransaction);
-            return transactionDto;
+            transactionsRepo.AddWithSave(newTransaction);
+            return amount;
 
         }
 

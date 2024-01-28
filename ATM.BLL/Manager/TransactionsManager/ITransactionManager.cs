@@ -7,9 +7,9 @@ namespace ATM.BLL.Manager.TransactionsManager
 
     public interface ITransactionManager
     {
-        public TransactionDto? Withdraw(TransactionDto transactionDto);
+        public decimal Withdraw(string cardNumber, decimal amount);
 
-        public TransactionDto? Deposit(TransactionDto transactionDto);
+        public decimal Deposit(string cardNumber, decimal amount);
 
 
 

@@ -20,9 +20,9 @@ namespace ATM.DAL.Repos.Accounts
 
         public Account? GetAccountById(string cardNumber)
         {
-            Account? CheckedAccount = context.Accounts
+            Account? checkedAccount = context.Accounts
                              .FirstOrDefault(i => i.CardNumber == cardNumber);
-            return CheckedAccount;
+            return checkedAccount;
         }
 
         public void Save()

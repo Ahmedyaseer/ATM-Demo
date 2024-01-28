@@ -10,7 +10,7 @@ using System.Reflection;
 namespace ATM.DAL.DatabaseContext 
 { 
 
-    public  class AtmContext : IdentityDbContext<AddOnIdentityUser>
+    public  class AtmContext : IdentityDbContext
     {
 
     public AtmContext(DbContextOptions options):base(options)
@@ -25,7 +25,7 @@ namespace ATM.DAL.DatabaseContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
+            modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
             modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId });
             modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
 

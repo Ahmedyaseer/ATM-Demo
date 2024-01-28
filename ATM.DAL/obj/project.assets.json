@@ -2859,11 +2859,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "W:\\ATM Demo\\ATM-Demo\\ATM.DAL\\ATM.DAL.csproj",
+      "projectUniqueName": "W:\\ATM Demo\\ATM.DAL\\ATM.DAL.csproj",
       "projectName": "ATM.DAL",
-      "projectPath": "W:\\ATM Demo\\ATM-Demo\\ATM.DAL\\ATM.DAL.csproj",
+      "projectPath": "W:\\ATM Demo\\ATM.DAL\\ATM.DAL.csproj",
       "packagesPath": "C:\\Users\\New\\.nuget\\packages\\",
-      "outputPath": "W:\\ATM Demo\\ATM-Demo\\ATM.DAL\\obj\\",
+      "outputPath": "W:\\ATM Demo\\ATM.DAL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\New\\AppData\\Roaming\\NuGet\\NuGet.Config",

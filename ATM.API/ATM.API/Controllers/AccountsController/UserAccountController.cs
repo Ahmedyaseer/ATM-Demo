@@ -1,6 +1,5 @@
 ﻿using ATM.BLL.Manager.AccountsManager;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -8,6 +7,7 @@ namespace ATM.API.Controllers.AccountsController
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserAccountController : ControllerBase
     {
         private readonly IAccountManager accountManager;
@@ -19,8 +19,7 @@ namespace ATM.API.Controllers.AccountsController
 
         [HttpGet]
         [Authorize (Policy ="UserPolicy")]
-        [Route("VarifiedBalance")]
-        public IActionResult LoginUserAuth()
+        public IActionResult VarifiedBalance()
         {
             var idOfCurrentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
